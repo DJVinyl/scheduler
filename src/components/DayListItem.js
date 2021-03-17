@@ -5,11 +5,10 @@ import "components/DayListItem.scss";
 
 export default function DayListItem(props) {  
 
-  let DayListItemClass = classNames(
+  let DayListItemClass = classNames( 'day-list__item',
     {
-      'day-list__item': true,
-      '--selected': props.selected,
-      '--full': props.spots === 0
+      'day-list__item--selected': props.selected,
+      'day-list__item--full': props.spots === 0
     });
 
   const formatSpots = () => {
