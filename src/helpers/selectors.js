@@ -5,13 +5,10 @@ export const getAppointmentsForDay = (currentState, currentDay) => {
   //could probably do this in a map
   for (const element of currentState.days) {
     if (element.name === currentDay) {
-      //get the appointments
       apptIDs = [...element.appointments]
       break;
     }
   }
-  // console.log(apptIDs);
-  // now that we have an appointment id array, get the appointment data
   for (const element of apptIDs)
   {
     for (const key in currentState.appointments)
@@ -25,6 +22,34 @@ export const getAppointmentsForDay = (currentState, currentDay) => {
   }
   return result;
 }
+
+export const getInterviewersForDay = (currentState, currentDay) => {
+  let result = [];
+  let interviewerIDs = [];
+  //check for appts for that day
+  //could probably do this in a map
+  for (const element of currentState.days) {
+    if (element.name === currentDay) {
+      //get the appointments
+      interviewerIDs = [...element.interviewers]
+      break;
+    }
+  }
+
+  for (const element of interviewerIDs)
+  {
+    for (const key in currentState.interviewers)
+    {
+      if (element === currentState.interviewers[key].id)
+      {
+        result.push(currentState.interviewers[key]);
+        break;
+      }
+    }
+  }
+  return result;
+}
+
 
 export const getInterview = (currentState, interview)  => {
   let result = null;

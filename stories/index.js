@@ -149,7 +149,7 @@ storiesOf("DayListItem", module) //Initiates Storybook and registers our DayList
         .add('Confirm', () => <Confirm message= "Delete the appointment?" onConfirm={action('onConfirm')} onCancel={action('onCancel')}/>)
         .add('Status', () => <Status message='Deleting'/>)
         .add('Error', ()=> <Error message="Could not delete appointment." onClose={action('onClose')}/>)
-        .add('Edit', () => <Form name='Archie Cohen' interviewers={interviewers} interviewer={1} onSave={action('onSave')} onCancel={action('onCancel')}/>)
+        .add('Edit', () => <Form name='Archie Cohen' interviewers={interviewers} interviewer={interviewer.id} onSave={action('onSave')} onCancel={action('onCancel')}/>)
         .add('Create', () =><Form interviewers={interviewers} onSave={action('onSave')} onCancel={action('onCancel')}/> )
         .add("Appointment Empty", () => (
           <Fragment>

@@ -3,86 +3,16 @@ import axios from 'axios'
 import "components/Application.scss";
 import Appointment from 'components/Appointment'
 import DayList from 'components/DayList'
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
-
-// const days = [
-//   {
-//     id: 1,
-//     name: "Monday",
-//     spots: 2,
-//   },
-//   {
-//     id: 2,
-//     name: "Tuesday",
-//     spots: 5,
-//   },
-//   {
-//     id: 3,
-//     name: "Wednesday",
-//     spots: 0,
-//   },
-// ];
-
-// const appointmentsHC = [
-//   {
-//     id: 1,
-//     time: "12pm",
-//   },
-//   {
-//     id: 2,
-//     time: "1pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       }
-//     }
-//   },
-//   {
-//     id: 1,
-//     time: "3pm",
-//   },
-//   {
-//     id: 2,
-//     time: "4pm",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       }
-//     }
-//   },
-//   {
-//     id: 1,
-//     time: "10am",
-//   },
-//   {
-//     id: 2,
-//     time: "11am",
-//     interview: {
-//       student: "Lydia Miller-Jones",
-//       interviewer: {
-//         id: 1,
-//         name: "Sylvia Palmer",
-//         avatar: "https://i.imgur.com/LpaY82x.png",
-//       }
-//     }
-//   }
-// ];
-
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
 export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    // you may put the line below, but will have to remove/comment hardcoded appointments variable
     appointments: {},
     interviewers: {}
   });
+
 
   let dailyAppointments = [];
   dailyAppointments = getAppointmentsForDay(state,state.day)
@@ -113,6 +43,59 @@ export default function Application(props) {
     });
   }, []);
 
+  function deleteAppt(id) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null,
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+    setState((prevState) => ({
+      ...prevState,
+      appointments,
+    }));
+    axios({
+      method: 'delete',
+      url: `http://localhost:8001/api/appointments/${id}`,
+    })
+    .then((response) => {
+      console.log('delete request made');
+      console.log('response', response);
+    });
+  }
+
+
+
+  function bookInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    setState((prevState) => ({
+      ...prevState,
+      appointments
+    }));
+
+    axios({
+      method: 'put',
+      url: `http://localhost:8001/api/appointments/${id}`,
+      data: {
+        interview: interview
+      }
+    })
+    .then((response) => {
+      console.log('put request made');
+      console.log('response', response);
+    });
+  }
+
+
   return (
     <main className="layout">
       <section className="sidebar">
@@ -137,14 +120,18 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
         {dailyAppointments.map(appointment => {
           const interview = getInterview(state, appointment.interview);
-          return     <Appointment
-          key={appointment.id}
-          id={appointment.id}
-          time={appointment.time}
-          interview={interview}
+          const interviewers = getInterviewersForDay(state, state.day);
+          return <Appointment
+            key={appointment.id}
+            id={appointment.id}
+            time={appointment.time}
+            interview={interview}
+            interviewers={interviewers}
+            bookInterview={bookInterview}
+            onDelete={deleteAppt}
+            onEdit={bookInterview}
           />
           })
         }
