@@ -52,21 +52,17 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment,
     };
-    setState((prevState) => ({
-      ...prevState,
-      appointments,
-    }));
-    axios({
+    return axios({
       method: 'delete',
       url: `http://localhost:8001/api/appointments/${id}`,
     })
     .then((response) => {
-      console.log('delete request made');
-      console.log('response', response);
+      setState((prevState) => ({
+        ...prevState,
+        appointments,
+      }));
     });
   }
-
-
 
   function bookInterview(id, interview) {
     const appointment = {
@@ -77,12 +73,8 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment
     };
-    setState((prevState) => ({
-      ...prevState,
-      appointments
-    }));
 
-    axios({
+    return axios({
       method: 'put',
       url: `http://localhost:8001/api/appointments/${id}`,
       data: {
@@ -92,6 +84,12 @@ export default function Application(props) {
     .then((response) => {
       console.log('put request made');
       console.log('response', response);
+      setState((prevState) => ({
+        ...prevState,
+        appointments
+      }));
+
+
     });
   }
 

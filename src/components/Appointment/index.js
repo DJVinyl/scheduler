@@ -8,6 +8,7 @@ import useVisualMode from "hooks/useVisualMode";
 import Form from 'components/Appointment/Form'
 import Status from 'components/Appointment/Status'
 import Confirm from 'components/Appointment/Confirm'
+import Error from 'components/Appointment/Error'
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -16,6 +17,8 @@ const SAVING = 'SAVING';
 const CONFIRM = 'CONFIRM';
 const DELETE = 'DELETE';
 const EDIT = 'EDIT';
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE";
 
 export default function Appointment(props) {
 
@@ -29,17 +32,19 @@ export default function Appointment(props) {
       interviewer
     };
     transition(SAVING)
-    props.bookInterview(props.id,interview);
-    transition(SHOW);
+    props
+    .bookInterview(props.id, interview)
+    .then(() => transition(SHOW))
+    .catch(error => transition(ERROR_SAVE));
   }
 
   function delAppt() {
-    transition(DELETE)
+    transition(DELETE, true)
     props.onDelete(props.id)
-    transition(EMPTY)
+    .then(() => transition(EMPTY))
+    .catch(() => transition(ERROR_DELETE, true));
   }
   function edit() {
-
 
     //props.editAppt(id, interview) 
     //which is book interview in a nutshell
@@ -86,6 +91,8 @@ export default function Appointment(props) {
         onSave= {save}
         onCancel= {()=> back()}
       />}
+      {mode === ERROR_SAVE && <Error message={'Saving Error'} onClose={()=>transition(SHOW)}/>}
+      {mode === ERROR_DELETE && <Error message={'Deleting Error'} onClose={()=>transition(SHOW)}/>}
     </article>
   );
 };
