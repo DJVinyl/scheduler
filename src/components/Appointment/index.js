@@ -31,11 +31,11 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
-    transition(SAVING)
+    transition(SAVING, true)
     props
     .bookInterview(props.id, interview)
     .then(() => transition(SHOW))
-    .catch(error => transition(ERROR_SAVE));
+    .catch(error => transition(ERROR_SAVE,true));
   }
 
   function delAppt() {
@@ -91,8 +91,8 @@ export default function Appointment(props) {
         onSave= {save}
         onCancel= {()=> back()}
       />}
-      {mode === ERROR_SAVE && <Error message={'Saving Error'} onClose={()=>transition(SHOW)}/>}
-      {mode === ERROR_DELETE && <Error message={'Deleting Error'} onClose={()=>transition(SHOW)}/>}
+      {mode === ERROR_SAVE && <Error message={'Saving Error'} onClose={back}/>}
+      {mode === ERROR_DELETE && <Error message={'Deleting Error'} onClose={back}/>}
     </article>
   );
 };
