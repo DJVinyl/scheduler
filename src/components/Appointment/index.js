@@ -38,9 +38,9 @@ export default function Appointment(props) {
     .catch(error => transition(ERROR_SAVE,true));
   }
 
-  function delAppt() {
+  function cancelAppt() {
     transition(DELETE, true)
-    props.onDelete(props.id)
+    props.cancelInterview(props.id)
     .then(() => transition(EMPTY))
     .catch(() => transition(ERROR_DELETE, true));
   }
@@ -49,7 +49,6 @@ export default function Appointment(props) {
     //props.editAppt(id, interview) 
     //which is book interview in a nutshell
   }
-  console.log('appt props', props)
 
   return (
     <article className="appointment">
@@ -80,7 +79,7 @@ export default function Appointment(props) {
       <Confirm
       message={'Are you sure?'}
       onCancel={()=>back()}
-      onConfirm={delAppt}
+      onConfirm={cancelAppt}
       // onConfrim
       />}
       {mode === EDIT && 

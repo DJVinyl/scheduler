@@ -30,7 +30,6 @@ export default function Form(props) {
   // onSave:Function
   // onCancel:Function
 
-  console.log('form props', props)
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
