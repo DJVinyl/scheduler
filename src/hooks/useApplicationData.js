@@ -142,7 +142,26 @@ export default function useApplicationData() {
   }
 
 
+  useEffect(() => {
+    const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL)
+    webSocket.onopen = (event) => {
+    webSocket.send("ping");
+    }
+    webSocket.onmessage = function (event) {
+      const data = JSON.parse(event.data);
+      if (data.type === "SET_INTERVIEW") {
+        dispatch({ type: SET_INTERVIEW, id: data.id, interview: data.interview });
+        let daysObj = spotsRemaining(state.day, state.days, state.appointments);
+        dispatch({ type: SET_DAYS, days: daysObj });
+      }
+    };
+    return () => {
+      //cleanup
+      webSocket.close();
+    };
+  }, []);
 
+  
   return {state, setDay, cancelInterview, bookInterview}
 }
 
