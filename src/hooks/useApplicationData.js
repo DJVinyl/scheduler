@@ -75,15 +75,6 @@ export default function useApplicationData() {
   }, []);
 
   function cancelInterview(id) {
-
-    // const appointment = {
-    //   ...state.appointments[id],
-    //   interview: null,
-    // };
-    // const appointments = {
-    //   ...state.appointments,
-    //   [id]: appointment,
-    // };
     return axios({
       method: 'delete',
       url: `http://localhost:8001/api/appointments/${id}`,
@@ -94,23 +85,10 @@ export default function useApplicationData() {
     .then(() => {
       let daysObj = spotsRemaining(state.day,state.days,state.appointments)
       dispatch({type: SET_DAYS, days: daysObj})
-      // setState((prevState)=> ({
-      //   ...prevState,
-      //   days: daysObj
-      // }));
     })
   }
 
   function bookInterview(id, interview) {
-    // const appointment = {
-    //   ...state.appointments[id],
-    //   interview: { ...interview }
-    // };
-    // const appointments = {
-    //   ...state.appointments,
-    //   [id]: appointment
-    // };
-
     return axios({
       method: 'put',
       url: `http://localhost:8001/api/appointments/${id}`,
@@ -125,11 +103,6 @@ export default function useApplicationData() {
     .then(() => {
       let daysObj = spotsRemaining(state.day,state.days,state.appointments, true)
       dispatch({type: SET_DAYS, days: daysObj})
-      // console.log('new daysObj', daysObj);
-      // setState((prevState)=> ({
-      //   ...prevState,
-      //   days: daysObj
-      // }));
     })
   }
   
