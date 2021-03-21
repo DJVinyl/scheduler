@@ -63,7 +63,6 @@ export default function useApplicationData() {
       axios.get("http://localhost:8001/api/days"),
       axios.get("http://localhost:8001/api/appointments"),
       axios.get('http://localhost:8001/api/interviewers')
-    // .then(response => setDays(response.data));
     ]).then((all) => {
       dispatch({ 
         type: SET_APPLICATION_DATA,
