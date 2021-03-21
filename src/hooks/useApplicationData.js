@@ -54,8 +54,12 @@ export default function useApplicationData() {
       }));
     })
     .then(() => {
-      let spots = spotsRemaining(state.day,state.days,state.appointments)
-      console.log('spotsRemaining cancelInterview', spots);
+      let daysObj = spotsRemaining(state.day,state.days,state.appointments)
+      console.log('new daysObj', daysObj);
+      setState((prevState)=> ({
+        ...prevState,
+        days: daysObj
+      }));
     })
   }
 
@@ -77,21 +81,22 @@ export default function useApplicationData() {
       }
     })
     .then((response) => {
-      // console.log('put request made');
-      // console.log('response', response);
       setState((prevState) => ({
         ...prevState,
         appointments
       }));
     })
     .then(() => {
-      let spots = spotsRemaining(state.day,state.days,state.appointments)
-      console.log('spotsRemaining bookInterview', spots);
+      let daysObj = spotsRemaining(state.day,state.days,state.appointments, true)
+      console.log('new daysObj', daysObj);
+      setState((prevState)=> ({
+        ...prevState,
+        days: daysObj
+      }));
     })
-
   }
   
-  function spotsRemaining(day, days, appointments) {
+  function spotsRemaining(day, days, appointments, type = false) {
     let apptIDs = [];
     let count = 0;
     for (const element of days)
@@ -103,12 +108,28 @@ export default function useApplicationData() {
     }
 
     for (const element of apptIDs){
-      if (appointments[`${element}`].interview){
+      if (!appointments[`${element}`].interview){
         count++
       }
     }
-    let result = 5 - count;
-    return result;
+    
+    //Not sure why I need this, that state does not update correctly even after updating
+    //update 
+    if (type){
+      count--;
+    } else {
+      //delete 
+      count++;
+    }
+
+    const newDaysArray = days.map(item => {
+      if (item.name === day) {
+        return { ...item, spots: count }
+      }
+      return item;
+    })
+
+    return newDaysArray;
   }
 
 
