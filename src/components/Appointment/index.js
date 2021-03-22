@@ -44,11 +44,6 @@ export default function Appointment(props) {
     .then(() => transition(EMPTY))
     .catch(() => transition(ERROR_DELETE, true));
   }
-  function edit() {
-
-    //props.editAppt(id, interview) 
-    //which is book interview in a nutshell
-  }
 
   return (
     <article className="appointment">

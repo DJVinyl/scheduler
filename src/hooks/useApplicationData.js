@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useReducer} from 'react'
+import { useEffect, useReducer} from 'react'
 import axios from 'axios'
 
 const SET_DAY = "SET_DAY";
