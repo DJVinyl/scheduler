@@ -74,10 +74,7 @@ export default function useApplicationData() {
   }, []);
 
   function cancelInterview(id) {
-    return axios({
-      method: 'delete',
-      url: `http://localhost:8001/api/appointments/${id}`,
-    })
+    return axios.delete(`http://localhost:8001/api/appointments/${id}`)
     .then((response) => {
       dispatch({ type: SET_INTERVIEW, id, interview: null });
     })
@@ -88,13 +85,14 @@ export default function useApplicationData() {
   }
 
   function bookInterview(id, interview) {
-    return axios({
-      method: 'put',
-      url: `http://localhost:8001/api/appointments/${id}`,
-      data: {
-        interview: interview
-      }
-    })
+    // return axios({
+    //   method: 'put',
+    //   url: `http://localhost:8001/api/appointments/${id}`,
+    //   data: {
+    //     interview: interview
+    //   }
+    // })
+    return axios.put(`http://localhost:8001/api/appointments/${id}`, {interview: interview})
     .then((response) => {
       dispatch({ type: SET_INTERVIEW, id, interview: interview });
 

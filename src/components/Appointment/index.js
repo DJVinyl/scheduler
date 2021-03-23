@@ -46,7 +46,8 @@ export default function Appointment(props) {
   }
 
   return (
-    <article className="appointment">
+    <article className="appointment"
+      data-testid="appointment">
       <Header time={props.time} />
       {mode === EMPTY && 
         <Empty onAdd={() => transition(CREATE)} 
@@ -65,10 +66,10 @@ export default function Appointment(props) {
         onSave={save}
       />}
       {mode === SAVING &&
-      <Status message={'Saving Private Appt'}/>
+      <Status message={'Saving'}/>
       }
       {mode === DELETE && 
-      <Status message={'Deleting Appt'}/>
+      <Status message={'Deleting'}/>
       }
       {mode === CONFIRM &&
       <Confirm
@@ -87,6 +88,7 @@ export default function Appointment(props) {
       />}
       {mode === ERROR_SAVE && <Error message={'Saving Error'} onClose={back}/>}
       {mode === ERROR_DELETE && <Error message={'Deleting Error'} onClose={back}/>}
+
     </article>
   );
 };
