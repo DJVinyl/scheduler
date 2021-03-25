@@ -19,10 +19,17 @@ export default function Form(props) {
   };
 
   function validate() {
-    if (personName === "") {
+    if (!personName && !interviewer) {
+      setError("Student name and interviewer cannot be blank");
+      return;
+    } else if (!personName && interviewer) {
       setError("Student name cannot be blank");
       return;
+    } else if (personName && !interviewer){
+      setError("Please pick an Interviewer");
+      return;
     }
+    
 
     setError("");
     props.onSave(personName, interviewer);
@@ -72,9 +79,7 @@ export default function Form(props) {
           </Button>
           <Button
             confirm
-            onClick={(event) => {
-              validate();
-            }}
+            onClick={validate}
             onSubmit={(event) => {
               event.preventDefault();
             }}
