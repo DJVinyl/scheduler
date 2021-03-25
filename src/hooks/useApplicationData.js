@@ -43,21 +43,15 @@ function reducer(state, action) {
 }
 
 function spotsRemaining(day, days, appointments) {
-  let apptIDs = [];
-  let count = 0;
-  for (const element of days) {
-    if (element.name === day) {
-      apptIDs = [...element.appointments];
-      break;
-    }
-  }
+  const dayObj = days.find((item) => item.name === day);
 
-  for (const element of apptIDs) {
-    if (!appointments[`${element}`].interview) {
-      count++;
+  let count = dayObj.appointments.reduce((acc, cur) => {
+    if(!appointments[cur].interview){
+      return ++acc;
+    } else {
+      return acc;
     }
-  }
-  console.log(count);
+  },0);
 
   const newDaysArray = days.map((item) => {
     if (item.name === day) {
