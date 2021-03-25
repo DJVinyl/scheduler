@@ -1,8 +1,7 @@
 import React from "react";
-import DayListItem from 'components/DayListItem'
+import DayListItem from "components/DayListItem";
 
 export default function DayList(props) {
-
   // days:Array a list of day objects (each object includes an id, name, and spots)
   // day:String the currently selected day
   // setDay:Function accepts the name of the day eg. "Monday", "Tuesday"
@@ -19,9 +18,5 @@ export default function DayList(props) {
     );
   });
 
-  return(
-    <ul>
-      {listDays}
-    </ul>
-    )
-} 
+  return <ul>{listDays}</ul>;
+}

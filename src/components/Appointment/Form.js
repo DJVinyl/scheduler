@@ -1,30 +1,29 @@
-import React, {useState}  from 'react';
-import Button from 'components/Button'
+import React, { useState } from "react";
+import Button from "components/Button";
 
-import InterviewerList from 'components/InterviewerList'
+import InterviewerList from "components/InterviewerList";
 
 export default function Form(props) {
-
   const [personName, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [error, setError] = useState("");
 
-  const cancel = () => {  
+  const cancel = () => {
     reset();
     props.onCancel();
-  }
+  };
 
   const reset = () => {
-    setName('');
+    setName("");
     setInterviewer(null);
-  }
+  };
 
   function validate() {
     if (personName === "") {
       setError("Student name cannot be blank");
       return;
     }
-  
+
     setError("");
     props.onSave(personName, interviewer);
   }
@@ -47,11 +46,13 @@ export default function Form(props) {
         <form autoComplete="off">
           <input
             className="appointment__create-input text--semi-bold"
-            name='name'
+            name="name"
             type="text"
             placeholder="Enter Student Name"
             value={personName}
-            onChange={(event) => {setName(event.target.value)}}
+            onChange={(event) => {
+              setName(event.target.value);
+            }}
             data-testid="student-name-input"
           />
         </form>
@@ -60,22 +61,28 @@ export default function Form(props) {
           interviewers={props.interviewers}
           interviewer={interviewer}
           setInterviewer={(event) => {
-            setInterviewer(event)
-            }
-          }
+            setInterviewer(event);
+          }}
         />
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">
-          <Button danger onClick={cancel}>Cancel</Button>
-          <Button confirm
-            onClick={(event) => {validate()}}
-            onSubmit={event => {
+          <Button danger onClick={cancel}>
+            Cancel
+          </Button>
+          <Button
+            confirm
+            onClick={(event) => {
+              validate();
+            }}
+            onSubmit={(event) => {
               event.preventDefault();
             }}
-          >Save</Button>
+          >
+            Save
+          </Button>
         </section>
       </section>
     </main>
   );
-};
+}
