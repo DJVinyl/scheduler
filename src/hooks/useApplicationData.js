@@ -32,11 +32,9 @@ export default function useApplicationData() {
   }, []);
 
   function cancelInterview(id) {
-    return axios
-      .delete(`/api/appointments/${id}`)
-      .then((response) => {
-        dispatch({ type: SET_INTERVIEW, id, interview: null });
-      });
+    return axios.delete(`/api/appointments/${id}`).then((response) => {
+      dispatch({ type: SET_INTERVIEW, id, interview: null });
+    });
   }
 
   function bookInterview(id, interview) {

@@ -1,9 +1,20 @@
 import React from "react";
-import { render, cleanup, waitForElement, getByText, queryByText, fireEvent, prettyDOM, getByAltText, queryByAltText, getAllByTestId, getByPlaceholderText } from "@testing-library/react";
+import {
+  render,
+  cleanup,
+  waitForElement,
+  getByText,
+  queryByText,
+  fireEvent,
+  prettyDOM,
+  getByAltText,
+  queryByAltText,
+  getAllByTestId,
+  getByPlaceholderText,
+} from "@testing-library/react";
 import Application from "components/Application";
 // import axios from "__mocks__/axios";
 import axios from "axios";
-
 
 afterEach(cleanup);
 
@@ -27,7 +38,7 @@ describe("Appointment", () => {
     fireEvent.click(getByAltText(appointment, "Add"));
 
     fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
-      target: { value: "Lydia Miller-Jones" }
+      target: { value: "Lydia Miller-Jones" },
     });
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
 
@@ -37,15 +48,15 @@ describe("Appointment", () => {
     await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
     // console.log(prettyDOM(container));
 
-    const day = getAllByTestId(container, "day").find(day =>
+    const day = getAllByTestId(container, "day").find((day) =>
       queryByText(day, "Monday")
     );
 
-    const spots = getAllByTestId(container, "day").find(day =>
+    const spots = getAllByTestId(container, "day").find((day) =>
       queryByText(day, "no spots remaining")
     );
     // console.log(prettyDOM(day));
-  })
+  });
 
   it("loads data, cancels an interview and increases the spots remaining for Monday by 1", async () => {
     // 1. Render the Application.
@@ -73,11 +84,11 @@ describe("Appointment", () => {
     // 7. Wait until the element with the "Add" button is displayed.
     await waitForElement(() => getByAltText(appointment, "Add"));
     // 8. Check that the DayListItem with the text "Monday" also has the text "2 spots remaining".
-    const day = getAllByTestId(container, "day").find(day =>
+    const day = getAllByTestId(container, "day").find((day) =>
       queryByText(day, "Monday")
     );
 
-    const spots = getAllByTestId(container, "day").find(day =>
+    const spots = getAllByTestId(container, "day").find((day) =>
       queryByText(day, "2 spots remaining")
     );
   });
@@ -106,23 +117,24 @@ describe("Appointment", () => {
     await waitForElement(() => getByText(appointment, "Archie Cohen"));
     // console.log(prettyDOM(container));
 
-    const day = getAllByTestId(container, "day").find(day =>
+    const day = getAllByTestId(container, "day").find((day) =>
       queryByText(day, "Monday")
     );
 
-    const spots = getAllByTestId(container, "day").find(day =>
+    const spots = getAllByTestId(container, "day").find((day) =>
       queryByText(day, "1 spot remaining")
     );
   });
 
   it("shows the save error when failing to save an appointment", async () => {
     axios.put.mockRejectedValueOnce();
-    const { container } = render(<Application />)
-    await waitForElement(() => getByText(container, "Archie Cohen"))
+    const { container } = render(<Application />);
+    await waitForElement(() => getByText(container, "Archie Cohen"));
 
-    const appointment = getAllByTestId(container, "appointment").find(
-      appointment => queryByText(appointment, "Archie Cohen")
-    );
+    const appointment = getAllByTestId(
+      container,
+      "appointment"
+    ).find((appointment) => queryByText(appointment, "Archie Cohen"));
 
     fireEvent.click(queryByAltText(appointment, "Edit"));
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
@@ -134,12 +146,13 @@ describe("Appointment", () => {
 
   it("shows the delete error when failing to delete an existing appointment", async () => {
     axios.delete.mockRejectedValueOnce();
-    const { container } = render(<Application />)
-    await waitForElement(() => getByText(container, "Archie Cohen"))
+    const { container } = render(<Application />);
+    await waitForElement(() => getByText(container, "Archie Cohen"));
 
-    const appointment = getAllByTestId(container, "appointment").find(
-      appointment => queryByText(appointment, "Archie Cohen")
-    );
+    const appointment = getAllByTestId(
+      container,
+      "appointment"
+    ).find((appointment) => queryByText(appointment, "Archie Cohen"));
 
     fireEvent.click(queryByAltText(appointment, "Delete"));
 
@@ -152,6 +165,5 @@ describe("Appointment", () => {
 
     await waitForElement(() => getByText(appointment, "Error"));
     expect(getByText(appointment, "Error")).toBeInTheDocument();
-
-  })
+  });
 });

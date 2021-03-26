@@ -8,7 +8,7 @@ export const getAppointmentsForDay = (currentState, currentDay) => {
   const result = dayObj.appointments.map((ID) => {
     return currentState.appointments[ID];
   });
-  
+
   return result;
 };
 

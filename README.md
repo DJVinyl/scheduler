@@ -37,6 +37,7 @@ Dependicies include:
   - react-dom
   - react-script
   - cypress
+  - prettier
 
 In conjunction to server (scheduler-api)[https://github.com/DJVinyl/scheduler-api]
 

@@ -31,7 +31,7 @@ export default function reducer(state, action) {
 
       return { ...state, appointments, days };
     }
-     
+
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
@@ -43,12 +43,12 @@ function spotsRemaining(day, days, appointments) {
   const dayObj = days.find((item) => item.name === day);
 
   let count = dayObj.appointments.reduce((acc, cur) => {
-    if(!appointments[cur].interview){
+    if (!appointments[cur].interview) {
       return ++acc;
     } else {
       return acc;
     }
-  },0);
+  }, 0);
 
   const newDaysArray = days.map((item) => {
     if (item.name === day) {
