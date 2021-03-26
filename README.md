@@ -39,7 +39,7 @@ Dependicies include:
   - cypress
   - prettier
 
-In conjunction to server (scheduler-api)[https://github.com/DJVinyl/scheduler-api]
+In conjunction to server [scheduler-api](https://github.com/DJVinyl/scheduler-api)
 
 
 ## Running Webpack Development Server
